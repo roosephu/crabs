@@ -1,0 +1,9 @@
+numpy
+wrapt
+anymarkup
+fasteners
+ipdb
+tensorboardX
+
+matplotlib
+pandas

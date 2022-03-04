@@ -1,0 +1,91 @@
+{
+  model: {
+    type: "GatedTransitionModel",
+    n_ensemble: 5,
+    n_elites: 5,
+    frozen: false,
+    train: {
+      batch_size: 256,
+      weight_decay: 7.5e-05,
+      lr: 0.001,
+      mul_std: 0,
+    },
+  },
+  ckpt: {
+    h: "ckpts/Swing-init_h.pt",
+    policy: "ckpts/Swing-init_policy.pt",
+    models: "ckpts/Swing-init_models.pt",
+    buf: "",
+  },
+  fix: {
+    h: false,
+    policy: false,
+    normalizer: true,
+    model: false,
+  },
+  h: {
+    type: "learned",
+  },
+  env: {
+    id: "SafeInvertedPendulum-v2",
+    config: {
+      threshold: 1.5,
+      task: "swing",
+    },
+  },
+  SAC: {
+    lr: 0.0003,
+    alpha: null,
+    gamma: 0.99,
+    batch_size: 256,
+    tau: 0.005,
+    target_update: 1,
+    n_grad_iters: 1,
+  },
+  lyapunov: {
+    ell_coef: 1.0,
+    barrier_coef: 1,
+  },
+  opt_s: {
+    temperature: {
+      max: 0.03,
+      min: 0.03,
+    },
+    filter: {
+      top_k: 10000,
+      pool: false,
+    },
+    n_steps: 1,
+    method: "MALA",
+    lr: 0.01,
+    batch_size: 10000,
+    extend_region: 0.0,
+    barrier_coef: 0.0,
+    L_neg_coef: 1,
+    resample: false,
+    n_proj_iters: 10,
+    precond: false,
+  },
+  opt_h: {
+    weight_decay: 0.0001,
+    lr: 0.0003,
+    lambda_2: "norm",
+    locals: {},
+  },
+  crabs: {
+    obj: {
+      eps: 0.01,
+      neg_coef: 1.0,
+    },
+  },
+  uncertainty: {
+    method: "max-mean",
+    scale: 1.0,
+  },
+  n_iters: 500000,
+  n_plot_iters: 1000,
+  n_eval_iters: 1000,
+  n_save_iters: 10000,
+  n_pretrain_s_iters: 1,
+  task: "train_policy",
+}
